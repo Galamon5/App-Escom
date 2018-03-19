@@ -1,26 +1,40 @@
-import React, { Component } from 'react';
-import { Navigator, NativeModules } from 'react-native';
-
-import { COLOR, ThemeProvider } from '../node_modules/react-native-material-ui';
-
-// you can set your style right here, it'll be propagated to application
-const uiTheme = {
-    palette: {
-        primaryColor: COLOR.green500,
+import Drawer from 'react-native-drawer-menu';
+import {Easing} from 'react-native'; // Customize easing function (Optional)
+// in render function
+render() {
+  // prepare your drawer content
+  var drawerContent = (<View style={styles.drawerContent}>
+    <View style={styles.leftTop}/>
+    <View style={styles.leftBottom}>
+      <View><Text>Drawer Content</Text></View>
+    </View>
+  </View>);
+  // customize drawer's style (Optional)
+  var customStyles = {
+    drawer: {
+      shadowColor: '#000',
+      shadowOpacity: 0.4,
+      shadowRadius: 10
     },
-    toolbar: {
-        container: {
-            height: 50,
-        },
-    },
-};
-
-class Main extends Component {
-    render() {
-        return (
-            <ThemeProvider uiTheme={uiTheme}>
-                <App />
-            </ThemeProvider>
-        );
-    }
+    mask: {}, // style of mask if it is enabled
+    main: {} // style of main board
+  };
+  return (
+    <Drawer
+      style={styles.container}
+      drawerWidth={300}
+      drawerContent={drawerContent}
+      type={Drawer.types.Overlay}
+      customStyles={{drawer: styles.drawer}}
+      drawerPosition={Drawer.positions.Right}
+      onDrawerOpen={() => {console.log('Drawer is opened');}}
+      onDrawerClose={() => {console.log('Drawer is closed')}}
+      easingFunc={Easing.ease}
+    >
+      <View style={styles.content}>
+        <Text>{Object.values(Drawer.positions).join(' ')}</Text>
+        <Text>{Object.values(Drawer.types).join(' ')}</Text>
+      </View>
+    </Drawer>
+  );
 }
